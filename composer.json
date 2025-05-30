@@ -75,6 +75,8 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
+        "cs": "vendor/bin/phpcs --standard=Symfony src/",
+        "cs-fix": "vendor/bin/phpcbf --standard=Symfony src/",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
@@ -97,7 +99,9 @@
         }
     },
     "require-dev": {
+        "escapestudios/symfony2-coding-standard": "^3.15",
         "phpunit/phpunit": "^12.1",
+        "squizlabs/php_codesniffer": "^3.13",
         "symfony/browser-kit": "7.3.*",
         "symfony/css-selector": "7.3.*",
         "symfony/debug-bundle": "7.3.*",
