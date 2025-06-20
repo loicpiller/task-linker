@@ -52,10 +52,17 @@ class Employee
     #[ORM\OneToMany(targetEntity: Timeslot::class, mappedBy: 'employee', orphanRemoval: true)]
     private Collection $timeslots;
 
+    /**
+     * @var Collection<int, Project>
+     */
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'employes')]
+    private Collection $projects;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->timeslots = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,6 +221,33 @@ class Employee
             if ($timeslot->getEmployee() === $this) {
                 $timeslot->setEmployee(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): static
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->addEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): static
+    {
+        if ($this->projects->removeElement($project)) {
+            $project->removeEmploye($this);
         }
 
         return $this;

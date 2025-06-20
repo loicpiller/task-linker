@@ -46,11 +46,18 @@ class Project
     #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'project', orphanRemoval: true)]
     private Collection $tags;
 
+    /**
+     * @var Collection<int, Employee>
+     */
+    #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'projects')]
+    private Collection $employes;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->statuses = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->employes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +199,30 @@ class Project
                 $tag->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employee>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employee $employe): static
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employee $employe): static
+    {
+        $this->employes->removeElement($employe);
 
         return $this;
     }
