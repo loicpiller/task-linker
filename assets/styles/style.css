@@ -101,6 +101,10 @@ div#content {
     padding: 45px 80px;
 }
 
+.button:hover {
+    cursor: pointer;
+}
+
 .card-project {
     width: 223px;
     height: 116px;
@@ -492,12 +496,12 @@ form .select2-container--default .select2-selection--multiple .select2-selection
         width: 150px;
         padding: 50px 10px;
     }
-    
+
     #logo img {
         width: 100px;
         margin-bottom: 35px;
     }
-    
+
     ul#main-menu li a {
         padding: 10px;
         gap: 20px;
@@ -512,18 +516,18 @@ form .select2-container--default .select2-selection--multiple .select2-selection
     div#content {
         padding: 30px;
     }
-    
+
     nav {
         width: 50px;
         padding-left: 0;
         padding-right: 0;
         padding-top: 20px;
     }
-    
+
     #logo {
         display: none;
     }
-    
+
     ul#main-menu li a {
         border-radius: 0;
         padding: 13px;
