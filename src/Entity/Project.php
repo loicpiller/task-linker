@@ -19,14 +19,14 @@ class Project
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $startDate = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $deadline = null;
 
-    #[ORM\Column]
-    private ?bool $archived = null;
+    #[ORM\Column(options: ["default" => false])]
+    private ?bool $archived = false;
 
     /**
      * @var Collection<int, Task>

@@ -94,6 +94,15 @@ class Employee
         return $this;
     }
 
+    public function getFullName(): ?string
+    {
+        if (null === $this->firstName || null === $this->lastName) {
+            return null;
+        }
+
+        return $this->firstName.' '.$this->lastName;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;

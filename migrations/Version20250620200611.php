@@ -14,7 +14,7 @@ final class Version20250620200611 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add relation between employes and projects';
     }
 
     public function up(Schema $schema): void

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}{{ is_edit ? 'Modifier' : 'Nouveau projet' }} - TaskLinker{% endblock %}
+
+{% block content %}
+    <div id="content">
+        {{ form_start(form, {'attr': {'name': 'projet', 'method': 'post'}}) }}
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+
+            <div>
+                {{ form_label(form.employes) }}
+                {{ form_widget(form.employes) }}
+            </div>
+            <br>
+            <button class="button button-submit">
+                {{ is_edit ? 'Modifier' : 'Continuer' }}
+            </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
