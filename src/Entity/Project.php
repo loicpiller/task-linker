@@ -50,14 +50,14 @@ class Project
      * @var Collection<int, Employee>
      */
     #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'projects')]
-    private Collection $employes;
+    private Collection $employees;
 
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->statuses = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->employes = new ArrayCollection();
+        $this->employees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,23 +206,23 @@ class Project
     /**
      * @return Collection<int, Employee>
      */
-    public function getEmployes(): Collection
+    public function getEmployees(): Collection
     {
-        return $this->employes;
+        return $this->employees;
     }
 
-    public function addEmploye(Employee $employe): static
+    public function addEmployee(Employee $employee): static
     {
-        if (!$this->employes->contains($employe)) {
-            $this->employes->add($employe);
+        if (!$this->employees->contains($employee)) {
+            $this->employees->add($employee);
         }
 
         return $this;
     }
 
-    public function removeEmploye(Employee $employe): static
+    public function removeEmployee(Employee $employee): static
     {
-        $this->employes->removeElement($employe);
+        $this->employees->removeElement($employee);
 
         return $this;
     }

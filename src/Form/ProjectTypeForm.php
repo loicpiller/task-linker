@@ -20,7 +20,7 @@ class ProjectTypeForm extends AbstractType
                 'required' => true,
                 'attr' => ['id' => 'projet_nom'],
             ])
-            ->add('employes', EntityType::class, [
+            ->add('employees', EntityType::class, [
                 'label' => 'Inviter des membres',
                 'class' => Employee::class,
                 'choice_label' => 'fullName',

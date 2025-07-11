@@ -71,7 +71,7 @@ final class ProjectContoller extends AbstractController
 
         return $this->render('project/form.html.twig', [
             'form' => $form->createView(),
-            'is_edit' => false,
+            'isEdit' => false,
         ]);
     }
 
@@ -91,7 +91,7 @@ final class ProjectContoller extends AbstractController
 
         return $this->render('project/form.html.twig', [
             'form' => $form->createView(),
-            'is_edit' => true,
+            'isEdit' => true,
             'project' => $project,
         ]);
     }

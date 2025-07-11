@@ -8,7 +8,7 @@
         <div class="flex-header">
             <h1>{{ project.name }}</h1>
             <div class="user-list">
-                {% for employee in project.employes %}
+                {% for employee in project.employees %}
                     <div class="avatar">
                         {{ employee.firstName|slice(0, 1) ~ employee.lastName|slice(0, 1) }}
                     </div>
@@ -28,7 +28,7 @@
             <div class="tasks-list">
 
                 {% for task in status.tasks %}
-                    <a class="task" href="tache.html">
+                    <a class="task" href="{{ path("task_details", {'id': task.id}) }}">
                         <h3>{{ task.title }}</h3>
                         <p>{{ task.description }}</p>
                         <div class="task-infos">
@@ -39,7 +39,7 @@
                     </a>
                 {% endfor %}
 
-                <a href="tache-add.html" class="task-add">
+                <a href="{{ path("task_new", {'status_id': status.id }) }}" class="task-add">
                     + Ajouter une tâche
                 </a>
             </div>

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ is_edit ? "Modifier un projet" : 'Nouveau projet' }}{% endblock %}
+{% block title %}{{ isEdit ? "Modifier un projet" : 'Nouveau projet' }}{% endblock %}
 
 {% block header %}
     <div id="current-user"></div>
     <div id="title-page">
-        <h1>{{ is_edit ? project.name : 'Nouveau projet' }}</h1>
+        <h1>{{ isEdit ? project.name : 'Nouveau projet' }}</h1>
     </div>
 {% endblock %}
 
@@ -18,12 +18,12 @@
             </div>
 
             <div>
-                {{ form_label(form.employes) }}
-                {{ form_widget(form.employes) }}
+                {{ form_label(form.employees) }}
+                {{ form_widget(form.employees) }}
             </div>
             <br>
             <button class="button button-submit">
-                {{ is_edit ? 'Modifier' : 'Continuer' }}
+                {{ isEdit ? 'Modifier' : 'Continuer' }}
             </button>
         {{ form_end(form) }}
     </div>
