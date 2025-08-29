@@ -12,7 +12,7 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(ProjectRepository $projectRepo): Response
     {
-        $projects = $projectRepo->findAll();
+        $projects = $projectRepo->findBy(['archived' => false]);
 
         return $this->render('home/index.html.twig', [
             'projects' => $projects,

@@ -95,4 +95,19 @@ final class ProjectContoller extends AbstractController
             'project' => $project,
         ]);
     }
+
+    #[Route('/project/delete/{id}', name: 'project_delete')]
+    public function delete(int $id, EntityManagerInterface $em): Response
+    {
+        $project = $em->getRepository(Project::class)->find($id);
+
+        if (!$project) {
+            throw $this->createNotFoundException("Project not found.");
+        }
+
+        $project->setArchived(true);
+        $em->flush();
+
+        return $this->redirectToRoute('home');
+    }
 }
