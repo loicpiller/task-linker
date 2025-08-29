@@ -30,11 +30,21 @@
                 {% for task in status.tasks %}
                     <a class="task" href="{{ path("task_details", {'id': task.id}) }}">
                         <h3>{{ task.title }}</h3>
-                        <p>{{ task.description }}</p>
+                        <p>{{ task.description ?? '' }}</p>
                         <div class="task-infos">
-                            <div class="task-deadline">
-                                 <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
-                            </div>
+
+                            {% if task.employee %}
+                                <div class="task-deadline">
+                                     <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
+                                </div>
+                            {% endif %}
+
+                            {% if task.employee %}
+                                <div class="mini-user">
+                                    {{ task.employee.firstName|slice(0, 1) ~ task.employee.lastName|slice(0, 1) }}
+                                </div>
+                            {% endif %}
+
                         </div>
                     </a>
                 {% endfor %}
