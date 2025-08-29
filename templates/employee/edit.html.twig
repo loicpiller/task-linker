@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Équipe{% endblock %}
+
+{% block header %}
+    <div id="current-user"></div>
+    <div id="title-page">
+        <h1>{{ employee.firstName}} {{ employee.lastName }}</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        {{ form_start(form, {'attr': {'name': 'employe', 'method': 'post'}}) }}
+
+            <div>
+                {{ form_label(form.lastName) }}
+                {{ form_widget(form.lastName) }}
+            </div>
+
+            <div>
+                {{ form_label(form.firstName) }}
+                {{ form_widget(form.firstName) }}
+            </div>
+
+            <div>
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+
+            <div class="form-flex">
+                <div>
+                    {{ form_label(form.hireDate) }}
+                    {{ form_widget(form.hireDate) }}
+                </div>
+
+                <div>
+                    {{ form_label(form.contractType) }}
+                    {{ form_widget(form.contractType) }}
+                </div>
+            </div>
+
+            <br>
+            <button class="button button-submit">Enregistrer</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
