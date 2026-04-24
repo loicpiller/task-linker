@@ -33,8 +33,12 @@
     <br>
     {{ form_row(form.submit) }}
 
-    <a href="#" class="delete-task">Supprimer la tâche</a>
-
     {{ form_end(form) }}
+
+    {% if isEdit %}
+        <form method="post" action="{{ path('task_delete', {'id': task.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+            <a href="#" class="delete-task" onclick="this.closest('form').submit(); return false;">Supprimer la tâche</a>
+        </form>
+    {% endif %}
 
 {% endblock %}

@@ -97,6 +97,18 @@ final class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/task/delete', name: 'task_delete', methods: ['POST'])]
+    public function delete(Request $req, EntityManagerInterface $em): Response
+    {
+        $task = $this->getTaskFromRequest($req, $em);
+        $projectId = $task->getProject()->getId();
+
+        $em->remove($task);
+        $em->flush();
+
+        return $this->redirectToRoute('project_details', ['id' => $projectId]);
+    }
+
     #[Route('/task/new', name: 'task_new')]
     public function new(Request $req, EntityManagerInterface $em): Response
     {
