@@ -7,8 +7,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Home page controller.
+ */
 final class HomeController extends AbstractController
 {
+    /**
+     * Display the home page with active projects.
+     *
+     * @param ProjectRepository $projectRepo
+     *
+     * @return Response
+     */
     #[Route('/', name: 'home')]
     public function index(ProjectRepository $projectRepo): Response
     {

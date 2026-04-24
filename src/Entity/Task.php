@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Task entity.
+ */
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
@@ -48,22 +51,36 @@ class Task
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tasks')]
     private Collection $tags;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->timeslots = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     *
+     * @return static
+     */
     public function setTitle(string $title): static
     {
         $this->title = $title;
@@ -71,11 +88,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string|null $description
+     *
+     * @return static
+     */
     public function setDescription(?string $description): static
     {
         $this->description = $description;
@@ -83,11 +108,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getDeadline(): ?\DateTime
     {
         return $this->deadline;
     }
 
+    /**
+     * @param \DateTime|null $deadline
+     *
+     * @return static
+     */
     public function setDeadline(?\DateTime $deadline): static
     {
         $this->deadline = $deadline;
@@ -95,11 +128,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return Employee|null
+     */
     public function getEmployee(): ?Employee
     {
         return $this->employee;
     }
 
+    /**
+     * @param Employee|null $employee
+     *
+     * @return static
+     */
     public function setEmployee(?Employee $employee): static
     {
         $this->employee = $employee;
@@ -107,11 +148,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return Project|null
+     */
     public function getProject(): ?Project
     {
         return $this->project;
     }
 
+    /**
+     * @param Project|null $project
+     *
+     * @return static
+     */
     public function setProject(?Project $project): static
     {
         $this->project = $project;
@@ -119,11 +168,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return Status|null
+     */
     public function getStatus(): ?Status
     {
         return $this->status;
     }
 
+    /**
+     * @param Status|null $status
+     *
+     * @return static
+     */
     public function setStatus(?Status $status): static
     {
         $this->status = $status;
@@ -139,6 +196,11 @@ class Task
         return $this->timeslots;
     }
 
+    /**
+     * @param Timeslot $timeslot
+     *
+     * @return static
+     */
     public function addTimeslot(Timeslot $timeslot): static
     {
         if (!$this->timeslots->contains($timeslot)) {
@@ -149,6 +211,11 @@ class Task
         return $this;
     }
 
+    /**
+     * @param Timeslot $timeslot
+     *
+     * @return static
+     */
     public function removeTimeslot(Timeslot $timeslot): static
     {
         if ($this->timeslots->removeElement($timeslot)) {
@@ -169,6 +236,11 @@ class Task
         return $this->tags;
     }
 
+    /**
+     * @param Tag $tag
+     *
+     * @return static
+     */
     public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
@@ -178,6 +250,11 @@ class Task
         return $this;
     }
 
+    /**
+     * @param Tag $tag
+     *
+     * @return static
+     */
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);

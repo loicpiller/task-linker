@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Tag entity.
+ */
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 class Tag
 {
@@ -28,21 +31,35 @@ class Tag
     #[ORM\ManyToMany(targetEntity: Task::class, mappedBy: 'tags')]
     private Collection $tasks;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLabel(): ?string
     {
         return $this->label;
     }
 
+    /**
+     * @param string $label
+     *
+     * @return static
+     */
     public function setLabel(string $label): static
     {
         $this->label = $label;
@@ -50,11 +67,19 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return Project|null
+     */
     public function getProject(): ?Project
     {
         return $this->project;
     }
 
+    /**
+     * @param Project|null $project
+     *
+     * @return static
+     */
     public function setProject(?Project $project): static
     {
         $this->project = $project;
@@ -70,6 +95,11 @@ class Tag
         return $this->tasks;
     }
 
+    /**
+     * @param Task $task
+     *
+     * @return static
+     */
     public function addTask(Task $task): static
     {
         if (!$this->tasks->contains($task)) {
@@ -80,6 +110,11 @@ class Tag
         return $this;
     }
 
+    /**
+     * @param Task $task
+     *
+     * @return static
+     */
     public function removeTask(Task $task): static
     {
         if ($this->tasks->removeElement($task)) {

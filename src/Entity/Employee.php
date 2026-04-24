@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Employee entity.
+ */
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 class Employee
 {
@@ -58,6 +61,9 @@ class Employee
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'employes')]
     private Collection $projects;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -65,16 +71,27 @@ class Employee
         $this->projects = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    /**
+     * @param string $firstName
+     *
+     * @return static
+     */
     public function setFirstName(string $firstName): static
     {
         $this->firstName = $firstName;
@@ -82,11 +99,19 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string $lastName
+     *
+     * @return static
+     */
     public function setLastName(string $lastName): static
     {
         $this->lastName = $lastName;
@@ -94,6 +119,9 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFullName(): ?string
     {
         if (null === $this->firstName || null === $this->lastName) {
@@ -103,11 +131,19 @@ class Employee
         return $this->firstName.' '.$this->lastName;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     *
+     * @return static
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -115,11 +151,19 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getRole(): ?int
     {
         return $this->role;
     }
 
+    /**
+     * @param int $role
+     *
+     * @return static
+     */
     public function setRole(int $role): static
     {
         $this->role = $role;
@@ -127,11 +171,19 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContractType(): ?string
     {
         return $this->contractType;
     }
 
+    /**
+     * @param string $contractType
+     *
+     * @return static
+     */
     public function setContractType(string $contractType): static
     {
         $this->contractType = $contractType;
@@ -139,11 +191,19 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getHireDate(): ?\DateTime
     {
         return $this->hireDate;
     }
 
+    /**
+     * @param \DateTime $hireDate
+     *
+     * @return static
+     */
     public function setHireDate(\DateTime $hireDate): static
     {
         $this->hireDate = $hireDate;
@@ -151,11 +211,19 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function isActive(): ?bool
     {
         return $this->active;
     }
 
+    /**
+     * @param bool $active
+     *
+     * @return static
+     */
     public function setActive(bool $active): static
     {
         $this->active = $active;
@@ -163,11 +231,19 @@ class Employee
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     *
+     * @return static
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -183,6 +259,11 @@ class Employee
         return $this->tasks;
     }
 
+    /**
+     * @param Task $task
+     *
+     * @return static
+     */
     public function addTask(Task $task): static
     {
         if (!$this->tasks->contains($task)) {
@@ -193,6 +274,11 @@ class Employee
         return $this;
     }
 
+    /**
+     * @param Task $task
+     *
+     * @return static
+     */
     public function removeTask(Task $task): static
     {
         if ($this->tasks->removeElement($task)) {
@@ -213,6 +299,11 @@ class Employee
         return $this->timeslots;
     }
 
+    /**
+     * @param Timeslot $timeslot
+     *
+     * @return static
+     */
     public function addTimeslot(Timeslot $timeslot): static
     {
         if (!$this->timeslots->contains($timeslot)) {
@@ -223,6 +314,11 @@ class Employee
         return $this;
     }
 
+    /**
+     * @param Timeslot $timeslot
+     *
+     * @return static
+     */
     public function removeTimeslot(Timeslot $timeslot): static
     {
         if ($this->timeslots->removeElement($timeslot)) {
@@ -243,6 +339,11 @@ class Employee
         return $this->projects;
     }
 
+    /**
+     * @param Project $project
+     *
+     * @return static
+     */
     public function addProject(Project $project): static
     {
         if (!$this->projects->contains($project)) {
@@ -253,6 +354,11 @@ class Employee
         return $this;
     }
 
+    /**
+     * @param Project $project
+     *
+     * @return static
+     */
     public function removeProject(Project $project): static
     {
         if ($this->projects->removeElement($project)) {

@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Project entity.
+ */
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
 {
@@ -37,7 +40,7 @@ class Project
     /**
      * @var Collection<int, Status>
      */
-    #[ORM\OneToMany(targetEntity: Status::class, mappedBy: 'project', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Status::class, mappedBy: 'project', cascade: ['persist'], orphanRemoval: true)]
     private Collection $statuses;
 
     /**
@@ -52,6 +55,9 @@ class Project
     #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'projects')]
     private Collection $employees;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -60,16 +66,27 @@ class Project
         $this->employees = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return static
+     */
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -77,11 +94,19 @@ class Project
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getStartDate(): ?\DateTime
     {
         return $this->startDate;
     }
 
+    /**
+     * @param \DateTime $startDate
+     *
+     * @return static
+     */
     public function setStartDate(\DateTime $startDate): static
     {
         $this->startDate = $startDate;
@@ -89,11 +114,19 @@ class Project
         return $this;
     }
 
+    /**
+     * @return \DateTime|null
+     */
     public function getDeadline(): ?\DateTime
     {
         return $this->deadline;
     }
 
+    /**
+     * @param \DateTime $deadline
+     *
+     * @return static
+     */
     public function setDeadline(\DateTime $deadline): static
     {
         $this->deadline = $deadline;
@@ -101,11 +134,19 @@ class Project
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
     public function isArchived(): ?bool
     {
         return $this->archived;
     }
 
+    /**
+     * @param bool $archived
+     *
+     * @return static
+     */
     public function setArchived(bool $archived): static
     {
         $this->archived = $archived;
@@ -121,6 +162,11 @@ class Project
         return $this->tasks;
     }
 
+    /**
+     * @param Task $task
+     *
+     * @return static
+     */
     public function addTask(Task $task): static
     {
         if (!$this->tasks->contains($task)) {
@@ -131,6 +177,11 @@ class Project
         return $this;
     }
 
+    /**
+     * @param Task $task
+     *
+     * @return static
+     */
     public function removeTask(Task $task): static
     {
         if ($this->tasks->removeElement($task)) {
@@ -151,6 +202,11 @@ class Project
         return $this->statuses;
     }
 
+    /**
+     * @param Status $status
+     *
+     * @return static
+     */
     public function addStatus(Status $status): static
     {
         if (!$this->statuses->contains($status)) {
@@ -161,6 +217,11 @@ class Project
         return $this;
     }
 
+    /**
+     * @param Status $status
+     *
+     * @return static
+     */
     public function removeStatus(Status $status): static
     {
         if ($this->statuses->removeElement($status)) {
@@ -181,6 +242,11 @@ class Project
         return $this->tags;
     }
 
+    /**
+     * @param Tag $tag
+     *
+     * @return static
+     */
     public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
@@ -191,6 +257,11 @@ class Project
         return $this;
     }
 
+    /**
+     * @param Tag $tag
+     *
+     * @return static
+     */
     public function removeTag(Tag $tag): static
     {
         if ($this->tags->removeElement($tag)) {
@@ -211,6 +282,11 @@ class Project
         return $this->employees;
     }
 
+    /**
+     * @param Employee $employee
+     *
+     * @return static
+     */
     public function addEmployee(Employee $employee): static
     {
         if (!$this->employees->contains($employee)) {
@@ -220,6 +296,11 @@ class Project
         return $this;
     }
 
+    /**
+     * @param Employee $employee
+     *
+     * @return static
+     */
     public function removeEmployee(Employee $employee): static
     {
         $this->employees->removeElement($employee);

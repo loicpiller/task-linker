@@ -12,14 +12,96 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+/**
+ * Controller for task management.
+ */
 final class TaskController extends AbstractController
 {
     /**
-     * Retrieves a Task entity based on the 'id' GET parameter in the request.
+     * Display and handle task edition.
      *
-     * This method checks if the 'id' query parameter is present and corresponds
-     * to an existing Task entity in the database. If the parameter is missing,
-     * a BadRequestHttpException is thrown.
+     * @param Request                $req
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    #[Route('/task', name: 'task_details')]
+    public function index(Request $req, EntityManagerInterface $em): Response
+    {
+        $task = $this->getTaskFromRequest($req, $em);
+        $form = $this->createForm(TaskTypeForm::class, $task);
+
+        $form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($task);
+            $em->flush();
+        }
+
+        return $this->render('task/form.html.twig', [
+            'form' => $form->createView(),
+            'isEdit' => true,
+            'task' => $task,
+        ]);
+    }
+
+    /**
+     * Delete a task.
+     *
+     * @param Request                $req
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    #[Route('/task/delete', name: 'task_delete', methods: ['POST'])]
+    public function delete(Request $req, EntityManagerInterface $em): Response
+    {
+        $task = $this->getTaskFromRequest($req, $em);
+        $projectId = $task->getProject()->getId();
+
+        $em->remove($task);
+        $em->flush();
+
+        return $this->redirectToRoute('project_details', ['id' => $projectId]);
+    }
+
+    /**
+     * Create a new task.
+     *
+     * @param Request                $req
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    #[Route('/task/new', name: 'task_new')]
+    public function new(Request $req, EntityManagerInterface $em): Response
+    {
+
+        $status = $this->getStatusFromRequest($req, $em);
+        $project = $status->getProject();
+
+        $task = new Task();
+        $task->setStatus($status);
+        $task->setProject($project);
+
+        $form = $this->createForm(TaskTypeForm::class, $task);
+
+        $form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($task);
+            $em->flush();
+
+            return $this->redirectToRoute('project_details', ['id' => $task->getProject()->getId()]);
+        }
+
+        return $this->render('task/form.html.twig', [
+            'form' => $form->createView(),
+            'isEdit' => false,
+            'task' => $task,
+        ]);
+    }
+
+    /**
+     * Retrieves a Task entity based on the 'id' GET parameter in the request.
      *
      * @param Request                $req The current HTTP request containing the 'id' parameter.
      * @param EntityManagerInterface $em  The entity manager used to retrieve the Project.
@@ -47,19 +129,15 @@ final class TaskController extends AbstractController
     }
 
     /**
-     * Retrieves a Status entity based on the 'id' GET parameter in the request.
+     * Retrieves a Status entity based on the 'status_id' GET parameter in the request.
      *
-     * This method checks if the 'id' query parameter is present and corresponds
-     * to an existing Status entity in the database. If the parameter is missing,
-     * a BadRequestHttpException is thrown.
+     * @param Request                $req The current HTTP request containing the 'status_id' parameter.
+     * @param EntityManagerInterface $em  The entity manager used to retrieve the Status.
      *
-     * @param Request                $req The current HTTP request containing the 'id' parameter.
-     * @param EntityManagerInterface $em  The entity manager used to retrieve the Project.
+     * @return Status The Status entity corresponding to the given 'status_id'.
      *
-     * @return Status The Status entity corresponding to the given 'id'.
-     *
-     * @throws BadRequestHttpException If the 'id' parameter is missing.
-     * @throws NotFoundHttpException If no Status is found for the given 'id'.
+     * @throws BadRequestHttpException If the 'status_id' parameter is missing.
+     * @throws NotFoundHttpException If no Status is found for the given 'status_id'.
      */
     private function getStatusFromRequest(Request $req, EntityManagerInterface $em): Status
     {
@@ -76,64 +154,5 @@ final class TaskController extends AbstractController
         }
 
         return $task;
-    }
-
-    #[Route('/task', name: 'task_details')]
-    public function index(Request $req, EntityManagerInterface $em): Response
-    {
-        $task = $this->getTaskFromRequest($req, $em);
-        $form = $this->createForm(TaskTypeForm::class, $task);
-
-        $form->handleRequest($req);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($task);
-            $em->flush();
-        }
-
-        return $this->render('task/form.html.twig', [
-            'form' => $form->createView(),
-            'isEdit' => true,
-            'task' => $task,
-        ]);
-    }
-
-    #[Route('/task/delete', name: 'task_delete', methods: ['POST'])]
-    public function delete(Request $req, EntityManagerInterface $em): Response
-    {
-        $task = $this->getTaskFromRequest($req, $em);
-        $projectId = $task->getProject()->getId();
-
-        $em->remove($task);
-        $em->flush();
-
-        return $this->redirectToRoute('project_details', ['id' => $projectId]);
-    }
-
-    #[Route('/task/new', name: 'task_new')]
-    public function new(Request $req, EntityManagerInterface $em): Response
-    {
-
-        $status = $this->getStatusFromRequest($req, $em);
-        $project = $status->getProject();
-
-        $task = new Task();
-        $task->setStatus($status);
-        $task->setProject($project);
-
-        $form = $this->createForm(TaskTypeForm::class, $task);
-
-        $form->handleRequest($req);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($task);
-            $em->flush();
-
-            return $this->redirectToRoute('project_details', ['id' => $task->getProject()->getId()]);
-        }
-
-        return $this->render('task/form.html.twig', [
-            'form' => $form->createView(),
-            'isEdit' => false,
-            'task' => $task,
-        ]);
     }
 }

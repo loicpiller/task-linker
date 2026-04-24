@@ -8,8 +8,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
+/**
+ * Application data fixtures.
+ */
 class AppFixtures extends Fixture
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -29,7 +35,7 @@ class AppFixtures extends Fixture
         }
 
         $startDate = $faker->dateTimeBetween('-2 years', 'now');
-        $deadline = (clone $startDate)->modify('+' . $faker->numberBetween(30, 365) . ' days');
+        $deadline = (clone $startDate)->modify('+'.$faker->numberBetween(30, 365).' days');
 
         $project = new Project();
         $project->setName($faker->catchPhrase())
