@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Project;
+use App\Entity\Status;
 use App\Form\ProjectTypeForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,6 +64,12 @@ final class ProjectContoller extends AbstractController
 
         $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach (['To Do', 'Doing', 'Done'] as $label) {
+                $status = new Status();
+                $status->setLabel($label);
+                $project->addStatus($status);
+            }
+
             $em->persist($project);
             $em->flush();
 
